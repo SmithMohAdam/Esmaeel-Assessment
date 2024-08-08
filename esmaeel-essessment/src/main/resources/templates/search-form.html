@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Car Search Form</h1>
+    <form action="#" th:action="@{/cars/search}" method="post" class="form-inline">
+        <div class="form-group mb-2 mr-2">
+            <label for="length" class="mr-2">Length:</label>
+            <select class="form-control" name="length" id="length">
+                <option value="">Select Length</option>
+                <option th:each="length : ${lengths}" th:value="${length}" th:text="${length}"
+                        th:selected="${length == selectedLength}"></option>
+            </select>
+        </div>
+        <div class="form-group mb-2 mr-2">
+            <label for="weight" class="mr-2">Weight:</label>
+            <select class="form-control" name="weight" id="weight">
+                <option value="">Select Weight</option>
+                <option th:each="weight : ${weights}" th:value="${weight}" th:text="${weight}"
+                        th:selected="${weight == selectedWeight}"></option>
+            </select>
+        </div>
+        <div class="form-group mb-2 mr-2">
+            <label for="velocity" class="mr-2">Velocity:</label>
+            <select class="form-control" name="velocity" id="velocity">
+                <option value="">Select Velocity</option>
+                <option th:each="velocity : ${velocities}" th:value="${velocity}" th:text="${velocity}"
+                        th:selected="${velocity == selectedVelocity}"></option>
+            </select>
+        </div>
+        <div class="form-group mb-2 mr-2">
+            <label for="color" class="mr-2">Color:</label>
+            <select class="form-control" name="color" id="color">
+                <option value="">Select Color</option>
+                <option th:each="color : ${colors}" th:value="${color}" th:text="${color}"
+                        th:selected="${color == selectedColor}"></option>
+            </select>
+        </div>
+        <div class="form-group mb-2">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    <div th:if="${cars != null}" class="mt-2">
+        <h2>Search Results</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Length</th>
+                <th>Weight</th>
+                <th>Velocity</th>
+                <th>Color</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="car, index: ${cars}">
+                <td th:text="${index.index+1}"></td>
+                <td th:text="${car.length}"></td>
+                <td th:text="${car.weight}"></td>
+                <td th:text="${car.velocity}"></td>
+                <td th:text="${car.color}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form action="#" th:action="@{/cars/download}" method="get">
+            <input type="hidden" name="length" th:value="${selectedLength}">
+            <input type="hidden" name="weight" th:value="${selectedWeight}">
+            <input type="hidden" name="velocity" th:value="${selectedVelocity}">
+            <input type="hidden" name="color" th:value="${selectedColor}">
+            <button class="btn btn-success" type="submit">Download Results as XML</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
