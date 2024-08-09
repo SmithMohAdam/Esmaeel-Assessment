@@ -9,7 +9,7 @@ This application allows users to search for cars based on various criteria such 
 Search cars by length, weight, velocity, and color.
 Paginated search results.
 Download search results as an XML file.
-Technologies Used
+## Technologies Used
 Java 17
 Spring Boot 3.3.2 ,
 Thymeleaf ,
