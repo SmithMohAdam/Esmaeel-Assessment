@@ -11,21 +11,21 @@ Paginated search results.
 Download search results as an XML file.
 Technologies Used
 Java 17
-Spring Boot 3.3.2
-Thymeleaf
-Bootstrap 4.5.2
-JPA/Hibernate
-H2 database
+Spring Boot 3.3.2 ,
+Thymeleaf ,
+Bootstrap 4.5.2 ,
+JPA/Hibernate ,
+H2 database ,
 
 ## Project Structure
 
-Model
-Repository
-Services
-Dto
-Exception
-Specification
-Util
+Model ,
+Repository ,
+Services ,
+Dto ,
+Exception ,
+Specification ,
+Util ,
 Controller
 
 ## Access the Application
