@@ -1,6 +1,7 @@
 package com.esmaeel_essessment.service;
 
 import com.esmaeel_essessment.dto.CriteriasResponse;
+import com.esmaeel_essessment.exception.CarsNotFountException;
 import com.esmaeel_essessment.model.Car;
 
 import com.esmaeel_essessment.repository.CarRepository;
@@ -9,7 +10,10 @@ import com.esmaeel_essessment.util.XmlUtil;
 
 import jakarta.xml.bind.JAXBException;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +37,20 @@ public class CarService {
         );
     }
 
-    public List<Car> searchCars(Double length, Double weight, Double velocity, String color) {
+    public Page<Car> searchCars(Double length, Double weight, Double velocity, String color, Pageable pageable) throws CarsNotFountException {
         Specification<Car> spec = Specification.where(CarSpecifications.hasLength(length))
                 .and(CarSpecifications.hasWeight(weight))
                 .and(CarSpecifications.hasVelocity(velocity))
                 .and(CarSpecifications.hasColor(color));
-        return carRepository.findAll(spec);
+        Page<Car> resultPage = carRepository.findAll(spec, pageable);
+
+        if (resultPage.isEmpty()) {
+            throw new CarsNotFountException("No cars found matching the criteria.");
+        }
+
+        return resultPage;
+
+
     }
 
     public String carsToXml(List<Car> cars) throws JAXBException {

@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <h1>Car Search Form</h1>
-    <form action="#" th:action="@{/cars/search}" method="post" class="form-inline">
+    <form th:action="@{/cars/search}" method="get" class="form-inline">
         <div class="form-group mb-2 mr-2">
             <label for="length" class="mr-2">Length:</label>
             <select class="form-control" name="length" id="length">
@@ -45,7 +45,11 @@
         </div>
     </form>
 
-    <div th:if="${cars != null}" class="mt-2">
+    <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+    </div>
+
+    <div th:if="${cars != null && cars.size() > 0}" class="mt-2">
         <h2>Search Results</h2>
         <table class="table table-bordered">
             <thead>
@@ -59,7 +63,7 @@
             </thead>
             <tbody>
             <tr th:each="car, index: ${cars}">
-                <td th:text="${index.index+1}"></td>
+                <td th:text="${index.index + 1 + (currentPage * 10)}"></td>
                 <td th:text="${car.length}"></td>
                 <td th:text="${car.weight}"></td>
                 <td th:text="${car.velocity}"></td>
@@ -68,13 +72,35 @@
             </tbody>
         </table>
 
-        <form action="#" th:action="@{/cars/download}" method="get">
+        <nav>
+            <ul class="pagination">
+                <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                    <a class="page-link" th:href="@{/cars/search(page=${currentPage - 1}, length=${selectedLength}, weight=${selectedWeight}, velocity=${selectedVelocity}, color=${selectedColor})}">
+                        Previous
+                    </a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'" class="page-item">
+                    <a class="page-link" th:text="${i + 1}" th:href="@{/cars/search(page=${i}, length=${selectedLength}, weight=${selectedWeight}, velocity=${selectedVelocity}, color=${selectedColor})}"></a>
+                </li>
+                <li th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'" class="page-item">
+                    <a class="page-link" th:href="@{/cars/search(page=${currentPage + 1}, length=${selectedLength}, weight=${selectedWeight}, velocity=${selectedVelocity}, color=${selectedColor})}">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <form th:action="@{/cars/download}" method="get">
             <input type="hidden" name="length" th:value="${selectedLength}">
             <input type="hidden" name="weight" th:value="${selectedWeight}">
             <input type="hidden" name="velocity" th:value="${selectedVelocity}">
             <input type="hidden" name="color" th:value="${selectedColor}">
             <button class="btn btn-success" type="submit">Download Results as XML</button>
         </form>
+    </div>
+
+    <div th:if="${cars != null && cars.size() == 0}" class="alert alert-warning" role="alert">
+        <span>No cars found matching the criteria.</span>
     </div>
 </div>
 </body>
