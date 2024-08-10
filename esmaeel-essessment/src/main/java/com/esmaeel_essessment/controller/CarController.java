@@ -61,13 +61,11 @@ public class CarController {
             @RequestParam(required = false) Double length,
             @RequestParam(required = false) Double weight,
             @RequestParam(required = false) Double velocity,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String color
     ) throws JAXBException {
 
-        Page<Car> cars = carService.searchCars(length, weight, velocity, color, PageRequest.of(page, size));
-        String xmlContent = carService.carsToXml(cars.getContent());
+        List<Car> cars = carService.downloadCars(length, weight, velocity, color);
+        String xmlContent = carService.carsToXml(cars);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
