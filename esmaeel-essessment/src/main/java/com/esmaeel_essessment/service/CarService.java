@@ -5,7 +5,6 @@ import com.esmaeel_essessment.exception.CarsNotFountException;
 import com.esmaeel_essessment.model.Car;
 
 import com.esmaeel_essessment.repository.CarRepository;
-import com.esmaeel_essessment.specification.CarSpecifications;
 import com.esmaeel_essessment.util.XmlUtil;
 
 import jakarta.xml.bind.JAXBException;

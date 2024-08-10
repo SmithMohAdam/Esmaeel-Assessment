@@ -5,6 +5,7 @@ import com.esmaeel_essessment.exception.CarsNotFountException;
 import com.esmaeel_essessment.model.Car;
 import com.esmaeel_essessment.service.CarService;
 import jakarta.xml.bind.JAXBException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cars")
+@Slf4j
 public class CarController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class CarController {
             @RequestParam(name = "velocity", required = false) Double velocity,
             @RequestParam(name = "color", required = false) String color,
             Model model) {
-
+        log.info("The value of length = {}  and value of weight = {} and The value of velocity = {}  and value of color = {}" ,length,weight,velocity,color);
         try {
             Page<Car> carsPage = carService.searchCars(length, weight, velocity, color, PageRequest.of(page, 10));
             model.addAttribute("cars", carsPage.getContent());

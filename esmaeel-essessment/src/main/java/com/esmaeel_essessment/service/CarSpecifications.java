@@ -1,11 +1,13 @@
-package com.esmaeel_essessment.specification;
+package com.esmaeel_essessment.service;
 
 import com.esmaeel_essessment.model.Car;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CarSpecifications {
     public static Specification<Car> hasLength(Double length) {
         return (Root<Car> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
