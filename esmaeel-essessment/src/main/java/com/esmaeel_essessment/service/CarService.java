@@ -52,6 +52,13 @@ public class CarService {
 
 
     }
+    public List<Car> downloadCars(Double length, Double weight, Double velocity, String color) throws CarsNotFountException {
+        Specification<Car> spec = Specification.where(CarSpecifications.hasLength(length))
+                .and(CarSpecifications.hasWeight(weight))
+                .and(CarSpecifications.hasVelocity(velocity))
+                .and(CarSpecifications.hasColor(color));
+        return carRepository.findAll(spec);
+    }
 
     public String carsToXml(List<Car> cars) throws JAXBException {
         return XmlUtil.convertToXml(cars);
